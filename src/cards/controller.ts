@@ -12,7 +12,7 @@ import { io } from '../index'
 @JsonController()
 export default class CardsController {
 
-    @Authorized()
+    // @Authorized()
     @Get('/cards')
     getCards() {
         return Cards.find()
