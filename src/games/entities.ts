@@ -1,15 +1,19 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
+import { BaseEntity, JoinColumn, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne, OneToOne } from 'typeorm'
 import User from '../users/entity'
+import Cards from '../cards/entity'
 
 // export type Symbol = 'x' | 'o'
 // export type Row = [ Symbol | null, Symbol | null, Symbol | null ]
- export type Cards = [null]
-const CardsDefault: Cards = [null]
+ //export type Cards = [null]
+//const CardsDefault: Cards = [null]
 
 type Status = 'pending' | 'started' | 'finished'
+//type Location = 'Deck' | 'CurrentCard' | 'Player1Hand' | 'Player2Hand' | 'Player3Hand' | 'Player4Hand'
+//type Color = 'yellow' | 'red' | 'green' | 'blue' | 'black'
 
 // const emptyRow: Row = [null, null, null]
 // const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ]
+
 
 @Entity()
 export class Game extends BaseEntity {
@@ -17,8 +21,8 @@ export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('json', { default: CardsDefault})
-  cards: Cards
+  // @Column()
+  // cards: Cards
 
   @Column()
   turn: String
@@ -33,10 +37,16 @@ export class Game extends BaseEntity {
   // http://typeorm.io/#/many-to-one-one-to-many-relations
   @OneToMany(_ => Player, player => player.game, {eager:true})
   players: Player[]
+
+  @OneToOne(_ => Cards, { eager: true })
+  @JoinColumn()
+  cards: Cards
+
 }
 
 @Entity()
-@Index(['game', 'user', 'symbol'], {unique:true})
+ // @Index(['game', 'user', 'symbol'], { unique: true })
+@Index(['game', 'user', 'cards'], {unique:true})
 export class Player extends BaseEntity {
 
   @PrimaryGeneratedColumn()
@@ -48,12 +58,17 @@ export class Player extends BaseEntity {
   @ManyToOne(_ => Game, game => game.players)
   game: Game
 
-  @Column()
-  userId: number
+  // @Column()
+  // userId: number
 
   @Column()
   username: string    // Could be enum [player1,player2]
 
-  // @Column('char', {length: 1})
-  // symbol: SymStrbol
+    // FS add:
+    @ManyToOne(_ => Cards, cards => cards.player)
+    cards: Cards
 }
+
+
+
+

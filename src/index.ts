@@ -4,6 +4,7 @@ import setupDb from './db'
 import UserController from './users/controller'
 import LoginController from './logins/controller'
 import GameController from './games/controller'
+import CardsController from './cards/controller'
 import { verify } from './jwt'
 import User from './users/entity'
 import * as Koa from 'koa'
@@ -22,7 +23,8 @@ useKoaServer(app, {
   controllers: [
     UserController,
     LoginController,
-    GameController
+    GameController,
+    CardsController
   ],
   authorizationChecker: (action: Action) => {
     const header: string = action.request.headers.authorization

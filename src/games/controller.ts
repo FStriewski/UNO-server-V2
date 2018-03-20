@@ -1,16 +1,16 @@
-import { 
-  JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get, 
-  Body, Patch 
+import {
+  JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get,
+  Body, Patch
 } from 'routing-controllers'
 import User from '../users/entity'
 import { Game, Player } from './entities'
-//import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
-import { Validate } from 'class-validator'
+// import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
+// import { Validate } from 'class-validator'
 import {io} from '../index'
 
 class GameUpdate {
 
-  // @Validate(IsBoard, {
+  // @Validate('IsBoard', {
   //   message: 'Not a valid board'
   // })
   // board: Board
@@ -29,7 +29,7 @@ export default class GameController {
     const entity = await Game.create().save()
 
     await Player.create({
-      game: entity, 
+      game: entity,
       user,
       username: "Player1"
     }).save()
@@ -60,7 +60,7 @@ export default class GameController {
     await game.save()
 
     const player = await Player.create({
-      game, 
+      game,
       user,
       username: "Player2"
     }).save()
@@ -73,50 +73,50 @@ export default class GameController {
     return player
   }
 
-  @Authorized()
-  // the reason that we're using patch here is because this request is not idempotent
-  // http://restcookbook.com/HTTP%20Methods/idempotency/
-  // try to fire the same requests twice, see what happens
-  @Patch('/games/:id([0-9]+)')
-  async updateGame(
-    @CurrentUser() user: User,
-    @Param('id') gameId: number,
-    @Body() update: GameUpdate
-  ) {
-    const game = await Game.findOneById(gameId)
-    if (!game) throw new NotFoundError(`Game does not exist`)
+  // @Authorized()
+  // // the reason that we're using patch here is because this request is not idempotent
+  // // http://restcookbook.com/HTTP%20Methods/idempotency/
+  // // try to fire the same requests twice, see what happens
+  // @Patch('/games/:id([0-9]+)')
+  // async updateGame(
+  //   @CurrentUser() user: User,
+  //   @Param('id') gameId: number,
+  //   @Body() update: GameUpdate
+  // ) {
+  //   const game = await Game.findOneById(gameId)
+  //   if (!game) throw new NotFoundError(`Game does not exist`)
 
-    const player = await Player.findOne({ user, game })
+  //   const player = await Player.findOne({ user, game })
 
-    if (!player) throw new ForbiddenError(`You are not part of this game`)
-    if (game.status !== 'started') throw new BadRequestError(`The game is not started yet`)
-    
-    //if (player.symbol !== game.turn) throw new BadRequestError(`It's not your turn`)
-    // if (!isValidTransition(player.symbol, game.board, update.board)) {
-    //   throw new BadRequestError(`Invalid move`)
-    // }    
+  //   if (!player) throw new ForbiddenError(`You are not part of this game`)
+  //   if (game.status !== 'started') throw new BadRequestError(`The game is not started yet`)
 
-    // const winner = calculateWinner(update.board)
-    // if (winner) {
-    //   game.winner = winner
-    //   game.status = 'finished'
-    // }
-    // else if (finished(update.board)) {
-    //   game.status = 'finished'
-    // }
-    // else {
-    //   game.turn = player.symbol === 'x' ? 'o' : 'x'
-    // }
-    // game.board = update.board
-    await game.save()
-    
-    io.emit('action', {
-      type: 'UPDATE_GAME',
-      payload: game
-    })
+  //   //if (player.symbol !== game.turn) throw new BadRequestError(`It's not your turn`)
+  //   // if (!isValidTransition(player.symbol, game.board, update.board)) {
+  //   //   throw new BadRequestError(`Invalid move`)
+  //   // }
 
-    return game
-  }
+  //   // const winner = calculateWinner(update.board)
+  //   // if (winner) {
+  //   //   game.winner = winner
+  //   //   game.status = 'finished'
+  //   // }
+  //   // else if (finished(update.board)) {
+  //   //   game.status = 'finished'
+  //   // }
+  //   // else {
+  //   //   game.turn = player.symbol === 'x' ? 'o' : 'x'
+  //   // }
+  //   // game.board = update.board
+  //   await game.save()
+
+  //   io.emit('action', {
+  //     type: 'UPDATE_GAME',
+  //     payload: game
+  //   })
+
+  //   return game
+  // }
 
   @Authorized()
   @Get('/games/:id([0-9]+)')
@@ -132,4 +132,3 @@ export default class GameController {
     return Game.find()
   }
 }
-
