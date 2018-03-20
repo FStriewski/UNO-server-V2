@@ -3,7 +3,7 @@ import {Game, Player} from '../games/entities'
 
 
 @Entity()
-export default class Cards extends BaseEntity {
+export default class Deck extends BaseEntity {
 
     // Should have n:1 to game and ?n:1 to player?
     @PrimaryGeneratedColumn()

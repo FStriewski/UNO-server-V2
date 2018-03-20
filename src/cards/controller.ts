@@ -3,19 +3,19 @@ import {
     Body, Patch
 } from 'routing-controllers'
 
-import  Cards  from './entity'
+import Deck  from './entity'
 // import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
 // import { Validate } from 'class-validator'
 import { io } from '../index'
 
 
 @JsonController()
-export default class CardsController {
+export default class DeckController {
 
     // @Authorized()
-    @Get('/cards')
-    getCards() {
-        return Cards.find()
+    @Get('/decks')
+    getDeck() {
+        return Deck.find()
     }
     
 
