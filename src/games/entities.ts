@@ -16,8 +16,8 @@ type Status = 'pending' | 'started' | 'finished'
 
 
 let test = {
-      color: "green",
-      value: 2,
+      color: "blue",
+      value: 12,
       plus: 0,
       location: "Deck"
     }
