@@ -66,7 +66,7 @@ export class Player extends BaseEntity {
   username: string    // Could be enum [player1,player2]
 
     // FS add:
-    @OneToMany(_ => Card, card => card.player)
+  @OneToMany(_ => Card, card => card.player, { eager: true } )
     cards: Card[]
 }
 

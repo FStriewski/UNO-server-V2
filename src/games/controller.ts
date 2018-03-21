@@ -29,13 +29,32 @@ export default class GameController {
   ) {
     const entity = await Game.create().save()
 
-    await Player.create({
+    // const cardtest = await Card.create
+
+    // await Player.create({
+    //   game: entity,
+    //   user,
+    //   username: "Player1",
+    // }).save()
+
+  
+    const player = await Player.create({
       game: entity,
       user,
       username: "Player1"
     }).save()
 
+    await Card.create({
+      color: "green",
+      value: 2,
+      plus: 0,
+      location: "Deck",
+      game: entity,
+      player: player
+    }).save()
+
     const game = await Game.findOneById(entity.id)
+
 
     io.emit('action', {
       type: 'ADD_GAME',
@@ -63,7 +82,8 @@ export default class GameController {
     const player = await Player.create({
       game,
       user,
-      username: "Player2"
+      username: "Player2",
+      cards: [1,2,3]
     }).save()
 
     io.emit('action', {
