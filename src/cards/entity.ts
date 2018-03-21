@@ -1,4 +1,4 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, OneToMany, OneToOne } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, OneToMany, ManyToOne } from 'typeorm'
 import {Game, Player} from '../games/entities'
 
 
@@ -25,10 +25,10 @@ export default class Card extends BaseEntity {
     location: Location
 
     // FS add:
-    @OneToOne(_ => Game)
+    @ManyToOne(_ => Game, game => game.cards )
     game: Game
 
-    @OneToMany(_ => Player, player => player.card)
+    @ManyToOne(_ => Player, player => player.cards)
     player: Player
 
 }

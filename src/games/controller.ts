@@ -108,7 +108,7 @@ export default class GameController {
     // else {
     //   game.turn = player.symbol === 'x' ? 'o' : 'x'
     // }
-    game.card = update.card
+   // game.card = update.card
     await game.save()
 
     io.emit('action', {

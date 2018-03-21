@@ -1,4 +1,4 @@
-import { BaseEntity, JoinColumn, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne, OneToOne } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
 import User from '../users/entity'
 import Card from '../cards/entity'
 
@@ -38,9 +38,8 @@ export class Game extends BaseEntity {
   @OneToMany(_ => Player, player => player.game, {eager:true})
   players: Player[]
 
-  @OneToOne(_ => Card, { eager: true })
-  @JoinColumn()
-  card: Card
+  @OneToMany(_ => Card, card => card.game, { eager: true })
+  cards: Card[]
 
 }
 
@@ -67,8 +66,8 @@ export class Player extends BaseEntity {
   username: string    // Could be enum [player1,player2]
 
     // FS add:
-    @ManyToOne(_ => Card, card => card.player)
-    card: Card
+    @OneToMany(_ => Card, card => card.player)
+    cards: Card[]
 }
 
 
