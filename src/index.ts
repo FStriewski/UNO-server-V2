@@ -55,6 +55,7 @@ useKoaServer(app, {
   }
 })
 
+// FS: Set socket.request.user.firstName to email because of an error
 io.use(socketIoJwtAuth.authenticate({ secret }, async (payload, done) => {
   const user = await User.findOneById(payload.id)
   if (user) done(null, user)
@@ -62,7 +63,7 @@ io.use(socketIoJwtAuth.authenticate({ secret }, async (payload, done) => {
 }))
 
 io.on('connect', socket => {
-  const name = socket.request.user.firstName
+  const name = socket.request.user.email
   console.log(`User ${name} just connected`)
 
   socket.on('disconnect', () => {

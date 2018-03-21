@@ -24,10 +24,10 @@ export class Game extends BaseEntity {
   // @Column()
   // cards: Cards
 
-  @Column()
+  @Column('text', { default: 'pending' })
   turn: String
 
-  @Column()
+  @Column('text', { default: 'pending' })
   winner: String
 
   @Column('text', {default: 'pending'})
@@ -58,8 +58,10 @@ export class Player extends BaseEntity {
   @ManyToOne(_ => Game, game => game.players)
   game: Game
 
-  // @Column()
-  // userId: number
+  // Take out when setting up a new db
+  // Put back in when creating games
+  @Column()
+  userId: number
 
   @Column()
   username: string    // Could be enum [player1,player2]

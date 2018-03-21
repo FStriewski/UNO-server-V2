@@ -17,6 +17,8 @@ export default class DeckController {
     getDeck() {
         return Deck.find()
     }
+
+
     
 
 }
