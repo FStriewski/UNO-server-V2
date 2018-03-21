@@ -37,9 +37,16 @@ export default class GameController {
       username: "Player1",
     })
 
-    player.cards = [entity.generateCard()]
+    await player.save()
 
-    player.save()
+    const card = entity.generateCard()
+    card.player = player
+    await card.save()
+
+
+    // player.cards = []
+
+ 
 
     //Game.generateCard()
 

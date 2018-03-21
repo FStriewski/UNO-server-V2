@@ -2,8 +2,8 @@ import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, OneToMany, ManyToOn
 import {Game, Player} from '../games/entities'
 
 
-type Location = 'Deck' | 'CurrentCard' | 'Player1Hand' | 'Player2Hand' | 'Player3Hand' | 'Player4Hand'
-type Color = 'yellow' | 'red' | 'green' | 'blue' | 'black' 
+// type Location = 'Deck' | 'CurrentCard' | 'Player1Hand' | 'Player2Hand' | 'Player3Hand' | 'Player4Hand'
+// type Color = 'yellow' | 'red' | 'green' | 'blue' | 'black' 
 
 @Entity()
 export default class Card extends BaseEntity {
@@ -16,13 +16,13 @@ export default class Card extends BaseEntity {
     value: number
 
     @Column('text', { nullable: true })
-    color: Color
+    color: string
 
     @Column('int', { nullable: true })
     plus: number
 
     @Column('text', { nullable: false })
-    location: Location
+    location: string
 
     // FS add:
     @ManyToOne(_ => Game, game => game.cards )

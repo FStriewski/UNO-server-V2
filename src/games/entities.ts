@@ -15,6 +15,13 @@ type Status = 'pending' | 'started' | 'finished'
 // const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ]
 
 
+let test = {
+      color: "green",
+      value: 2,
+      plus: 0,
+      location: "Deck"
+    }
+
 @Entity()
 export class Game extends BaseEntity {
 
@@ -41,7 +48,7 @@ export class Game extends BaseEntity {
   @OneToMany(_ => Card, card => card.game, { eager: true })
   cards: Card[]
 
-  generateCard() { return Card.create()} 
+  generateCard() { return Card.create({...test, game: this})} 
 
 }
 
