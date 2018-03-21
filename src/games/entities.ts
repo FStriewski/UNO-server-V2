@@ -46,7 +46,7 @@ export class Game extends BaseEntity {
 
 @Entity()
  // @Index(['game', 'user', 'symbol'], { unique: true })
-@Index(['game', 'user', 'cards'], {unique:true})
+@Index(['game', 'user'], {unique:true})
 export class Player extends BaseEntity {
 
   @PrimaryGeneratedColumn()

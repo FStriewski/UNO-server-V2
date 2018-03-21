@@ -1,4 +1,4 @@
-import { BaseEntity, JoinColumn, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne, OneToOne } from 'typeorm'
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, OneToMany, OneToOne } from 'typeorm'
 import {Game, Player} from '../games/entities'
 
 
@@ -15,10 +15,10 @@ export default class Card extends BaseEntity {
     @Column('int', { nullable: true })
     value: number
 
-    @Column('int', { nullable: true })
+    @Column('text', { nullable: true })
     color: Color
 
-    @Column('int', { length: 1, nullable: true })
+    @Column('int', { nullable: true })
     plus: number
 
     @Column('text', { nullable: false })
