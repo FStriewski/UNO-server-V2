@@ -41,6 +41,8 @@ export class Game extends BaseEntity {
   @OneToMany(_ => Card, card => card.game, { eager: true })
   cards: Card[]
 
+  generateCard() { return Card.create()} 
+
 }
 
 @Entity()

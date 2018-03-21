@@ -1,10 +1,12 @@
 import {
   JsonController, Authorized, CurrentUser, Post, Param, BadRequestError, HttpCode, NotFoundError, ForbiddenError, Get,
-  Body, Patch
+  Body, Patch,
 } from 'routing-controllers'
+
 import User from '../users/entity'
 import { Game, Player } from './entities'
 import Card from '../cards/entity'
+
 // import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
 // import { Validate } from 'class-validator'
 import {io} from '../index'
@@ -29,29 +31,26 @@ export default class GameController {
   ) {
     const entity = await Game.create().save()
 
-    // const cardtest = await Card.create
-
-    // await Player.create({
-    //   game: entity,
-    //   user,
-    //   username: "Player1",
-    // }).save()
-
-  
     const player = await Player.create({
       game: entity,
       user,
-      username: "Player1"
-    }).save()
+      username: "Player1",
+    })
 
-    await Card.create({
-      color: "green",
-      value: 2,
-      plus: 0,
-      location: "Deck",
-      game: entity,
-      player: player
-    }).save()
+    player.cards = [entity.generateCard()]
+
+    player.save()
+
+    //Game.generateCard()
+
+    // await Card.create({
+    //   color: "green",
+    //   value: 2,
+    //   plus: 0,
+    //   location: "Deck",
+    //   game: entity,
+    //   player: player
+    // }).save()
 
     const game = await Game.findOneById(entity.id)
 
