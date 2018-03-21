@@ -25,6 +25,8 @@ class GameUpdate {
 @JsonController()
 export default class GameController {
 
+
+
   //Player 1 creating a game
   @Authorized()
   @Post('/games')
@@ -42,28 +44,18 @@ export default class GameController {
 
     await player.save()
 
-    for (let x = 1; x< cardData.length; x++){
-      let card = entity.generateCard(cardData[x])
+    const cards = cardData
+    const randomCardId = (cards) => {
+      return Math.floor((Math.random() * cards.length) + 1);
+    }
+
+    for (let x = 1; x < 7; x++){
+      let card = entity.generateCard(cards[randomCardId(cards)])
       card.location = player.username
       card.player = player
       await card.save()
     }
 
-
-    // player.cards = []
-
- 
-
-    //Game.generateCard()
-
-    // await Card.create({
-    //   color: "green",
-    //   value: 2,
-    //   plus: 0,
-    //   location: "Deck",
-    //   game: entity,
-    //   player: player
-    // }).save()
 
     const game = await Game.findOneById(entity.id)
 
