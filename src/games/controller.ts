@@ -4,7 +4,7 @@ import {
 } from 'routing-controllers'
 import User from '../users/entity'
 import { Game, Player } from './entities'
-import Deck from '../cards/entity'
+import Card from '../cards/entity'
 // import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
 // import { Validate } from 'class-validator'
 import {io} from '../index'
@@ -14,7 +14,7 @@ class GameUpdate {
   // @Validate('IsBoard', {
   //   message: 'Not a valid board'
   // })
-   deck: Deck
+  card: Card
 }
 
 @JsonController()
@@ -108,7 +108,7 @@ export default class GameController {
     // else {
     //   game.turn = player.symbol === 'x' ? 'o' : 'x'
     // }
-    game.cards = update.deck
+    game.card = update.card
     await game.save()
 
     io.emit('action', {
