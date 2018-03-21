@@ -22,6 +22,32 @@ let test = {
       location: "Deck"
     }
 
+  let test2 = {
+    color: "red",
+    value: null,
+    plus: 2,
+    location: "Deck"
+  }
+
+  let arr = [test, test2]
+
+let arr2 = 
+[
+  {
+    color: "green",
+    value: 5,
+    plus: null,
+    location: "Deck"
+  },
+{
+      color: "red",
+      value: null,
+      plus: 2,
+      location: "Deck"
+    }
+
+  ]
+
 @Entity()
 export class Game extends BaseEntity {
 
@@ -48,7 +74,11 @@ export class Game extends BaseEntity {
   @OneToMany(_ => Card, card => card.game, { eager: true })
   cards: Card[]
 
-  generateCard() { return Card.create({...test, game: this})} 
+  generateCard(card) { return Card.create({ ...card, game: this }    )} 
+  //generateCard() { return Card.create({ ...test, game: this }) } 
+  //generateCard() { return arr2.map(x => Card.create( {...x, game: this} )) }
+    
+
 
 }
 

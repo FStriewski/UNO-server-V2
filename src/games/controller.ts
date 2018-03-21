@@ -7,9 +7,12 @@ import User from '../users/entity'
 import { Game, Player } from './entities'
 import Card from '../cards/entity'
 
+import {cardData} from '../cards/cardData'
+
 // import {IsBoard, isValidTransition, calculateWinner, finished} from './logic'
 // import { Validate } from 'class-validator'
 import {io} from '../index'
+
 
 class GameUpdate {
 
@@ -39,9 +42,12 @@ export default class GameController {
 
     await player.save()
 
-    const card = entity.generateCard()
-    card.player = player
-    await card.save()
+    for (let x = 1; x< cardData.length; x++){
+      let card = entity.generateCard(cardData[x])
+      card.location = player.username
+      card.player = player
+      await card.save()
+    }
 
 
     // player.cards = []
