@@ -35,7 +35,7 @@ export default class GameController {
     @CurrentUser() user: User
   ) {
     const entity = await Game.create().save()
-
+    // CREATE PLAYER 1:
     const player = await Player.create({
       game: entity,
       user,
@@ -43,6 +43,7 @@ export default class GameController {
     })
 
     await player.save()
+    // ASSIGN 6 CARDS TO PLAYER 1:
 
     const cards = cardData
     const randomCardId = (cards) => {
@@ -55,6 +56,18 @@ export default class GameController {
       card.player = player
       await card.save()
     }
+
+    // CREATE A DECK OF CARDS:
+    for (let x = 1; x < 30; x++){
+      let card = entity.generateCard(cards[randomCardId(cards)])
+      card.location = "Deck"
+      await card.save()
+    }
+
+    //CREATE CURRENT CARD:
+    let card = entity.generateCard(cards[randomCardId(cards)])
+    card.location = "CurrentCard"
+    await card.save()
 
 
     const game = await Game.findOneById(entity.id)
@@ -86,9 +99,21 @@ export default class GameController {
     const player = await Player.create({
       game,
       user,
-      username: "Player2",
-      cards: [1,2,3]
+      username: "Player2"
     }).save()
+
+    const cards = cardData
+    const randomCardId = (cards) => {
+      return Math.floor((Math.random() * cards.length) + 1);
+    }
+
+    for (let x = 1; x < 7; x++){
+      let card = game.generateCard(cards[randomCardId(cards)])
+      card.location = player.username
+      card.player = player
+      await card.save()
+    }
+
 
     io.emit('action', {
       type: 'UPDATE_GAME',

@@ -31,7 +31,7 @@ let test = {
 
   let arr = [test, test2]
 
-let arr2 = 
+let arr2 =
 [
   {
     color: "green",
@@ -74,10 +74,10 @@ export class Game extends BaseEntity {
   @OneToMany(_ => Card, card => card.game, { eager: true })
   cards: Card[]
 
-  generateCard(card) { return Card.create({ ...card, game: this }    )} 
-  //generateCard() { return Card.create({ ...test, game: this }) } 
+  generateCard(card) { return Card.create({ ...card, game: this }    )}
+  //generateCard() { return Card.create({ ...test, game: this }) }
   //generateCard() { return arr2.map(x => Card.create( {...x, game: this} )) }
-    
+
 
 
 }
@@ -108,7 +108,3 @@ export class Player extends BaseEntity {
   @OneToMany(_ => Card, card => card.player, { eager: true } )
     cards: Card[]
 }
-
-
-
-
