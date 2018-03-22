@@ -3,7 +3,7 @@ import {Game, Player} from '../games/entities'
 
 
 // type Location = 'Deck' | 'CurrentCard' | 'Player1Hand' | 'Player2Hand' | 'Player3Hand' | 'Player4Hand'
-// type Color = 'yellow' | 'red' | 'green' | 'blue' | 'black' 
+// type Color = 'yellow' | 'red' | 'green' | 'blue' | 'black'
 
 @Entity()
 export default class Card extends BaseEntity {
@@ -28,7 +28,7 @@ export default class Card extends BaseEntity {
     @ManyToOne(_ => Game, game => game.cards )
     game: Game
 
-    @ManyToOne(_ => Player, player => player.cards)
-    player: Player
+    @ManyToOne(_ => Player, player => player.cards, { nullable: true })
+    player: Player | null
 
 }

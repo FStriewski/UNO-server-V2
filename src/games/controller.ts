@@ -123,50 +123,46 @@ export default class GameController {
     return player
   }
 
+
+  //UPDATE CARD LOCATION:
   @Authorized()
-  // the reason that we're using patch here is because this request is not idempotent
-  // http://restcookbook.com/HTTP%20Methods/idempotency/
-  // try to fire the same requests twice, see what happens
-  @Patch('/games/:id([0-9]+)')
-  async updateGame(
-    @CurrentUser() user: User,
-    @Param('id') gameId: number,
-    @Body() update: GameUpdate
-  ) {
-    const game = await Game.findOneById(gameId)
-    if (!game) throw new NotFoundError(`Game does not exist`)
 
-    const player = await Player.findOne({ user, game })
+@Patch('/games/:id([0-9]+)')
+async playCardFromHand(
+  @CurrentUser() user: User,
+  @Param('id') gameId: number,
+  @Body() update: Card
+) {
+  const game = await Game.findOneById(gameId)
+  if (!game) throw new NotFoundError(`Game does not exist`)
 
-    if (!player) throw new ForbiddenError(`You are not part of this game`)
-    if (game.status !== 'started') throw new BadRequestError(`The game is not started yet`)
+  const player = await Player.findOne({ user, game })
 
-    //if (player.symbol !== game.turn) throw new BadRequestError(`It's not your turn`)
-    // if (!isValidTransition(player.symbol, game.board, update.board)) {
-    //   throw new BadRequestError(`Invalid move`)
-    // }
+  if (!player) throw new ForbiddenError(`You are not part of this game`)
+  if (game.status !== 'started') throw new BadRequestError(`The game is not started yet`)
 
-    // const winner = calculateWinner(update.board)
-    // if (winner) {
-    //   game.winner = winner
-    //   game.status = 'finished'
-    // }
-    // else if (finished(update.board)) {
-    //   game.status = 'finished'
-    // }
-    // else {
-    //   game.turn = player.symbol === 'x' ? 'o' : 'x'
-    // }
-   // game.card = update.card
-    await game.save()
+  //let currentCard = Card.find
+  //let card = update
+  update.location = "CurrentCard"
+  await update.save()
 
-    io.emit('action', {
-      type: 'UPDATE_GAME',
-      payload: game
-    })
+  update.player = null
 
-    return game
-  }
+//  player.cards.filter(card => card.location === player.username)
+  await update.save()
+
+  await game.save()
+
+  io.emit('action', {
+    type: 'UPDATE_GAME',
+    payload: game
+  })
+
+  return game
+}
+
+
+
 
   @Authorized()
   @Get('/games/:id([0-9]+)')
