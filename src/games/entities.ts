@@ -15,39 +15,6 @@ type Status = 'pending' | 'started' | 'finished'
 // const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ]
 
 
-let test = {
-      color: "blue",
-      value: 12,
-      plus: 0,
-      location: "Deck"
-    }
-
-  let test2 = {
-    color: "red",
-    value: null,
-    plus: 2,
-    location: "Deck"
-  }
-
-  let arr = [test, test2]
-
-let arr2 =
-[
-  {
-    color: "green",
-    value: 5,
-    plus: null,
-    location: "Deck"
-  },
-{
-      color: "red",
-      value: null,
-      plus: 2,
-      location: "Deck"
-    }
-
-  ]
-
 @Entity()
 export class Game extends BaseEntity {
 
